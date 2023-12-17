@@ -10,8 +10,6 @@ const InputComponent = ({ type, name, placeholder, value, icon }) => {
                 <i class={"fi fi-rr-" + icon + " absolute left-4 top-1/2 -translate-y-1/2 mt-0.5 text-black"}></i>
                 {type === "password" ? <i class={"fi fi-rr-eye" + (showPassword ? "" : "-crossed") + " absolute right-4 top-1/2 -translate-y-1/2 mt-0.5"} onClick={() => { setShowPassword(!showPassword) }}></i> : null}
             </div>
-
-
         </>
     )
 }

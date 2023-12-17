@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import googleicon from "../assets/google.png";
 import InputComponent from "../components/input.component";
+import AnimationWraper from "../common/animationWraper";
 const AuthForm = ({ pgName }) => {
     return (
-        <>
+        <AnimationWraper key={pgName}>
             <section className="min-h-[calc(100vh-80px)] flex items-center justify-center py-10">
                 <form action="" className="w-[80%] max-w-[400px]">
                     <h1 className="text-4xl font-semibold text-center mb-16">
@@ -46,7 +47,7 @@ const AuthForm = ({ pgName }) => {
                     }
                 </form>
             </section>
-        </>
+        </AnimationWraper>
     )
 }
 
