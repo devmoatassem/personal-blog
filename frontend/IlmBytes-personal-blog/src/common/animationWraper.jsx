@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 const AnimationWraper = ({ children, 
-    key, 
+    // key, 
     className, 
     initial = { opacity: 0, y: 20 }, 
     animate = { opacity: 1, y: 0 }, 
@@ -10,7 +10,7 @@ const AnimationWraper = ({ children,
     return (
         <AnimatePresence>
             <motion.div
-                key={key}
+                // key={key}
                 initial={initial}
                 animate={animate}
                 exit={exit}
