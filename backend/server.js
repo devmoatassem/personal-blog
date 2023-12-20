@@ -1,7 +1,7 @@
 import express from "express";
 import "dotenv/config.js";
 import connectDB from "./config/dbConnection.js";
-
+import userRoutes from "./routes/userRoutes.js";
 
 connectDB(); // connect to the database
 const server = new express();
@@ -11,7 +11,7 @@ const PORT = 8000;
 server.use(express.json());
 
 // Use the user routes
-// server.use('/api/users', userRoutes);
+server.use( userRoutes);
 
 // server.post("/register",userAuthValidation(regValidation), (req,res)=>{
 
