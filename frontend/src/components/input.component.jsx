@@ -12,8 +12,6 @@ const InputComponent = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  console.log(error); 
-  console.log(touched);
   return (
     <>
       <div className="relative w-full mb-4">

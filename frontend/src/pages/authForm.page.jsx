@@ -4,8 +4,53 @@ import InputComponent from "../components/input.component";
 import AnimationWraper from "../common/animationWraper";
 import { useFormik } from "formik";
 import { formValidation } from "../common/schema/formValidation";
+import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
+
 const AuthForm = ({ pgName }) => {
-    const { handleChange, handleBlur, values, errors, touched } = useFormik({
+
+    const userAuthToServer = (serverRoute, formData) => {
+        axios.post(import.meta.env.VITE_SERVER + serverRoute, formData).then(({ data }) => {
+            console.log(data)
+            toast.success("Successful");
+        }).catch(({ response }) => {
+            console.log(response)
+            toast.error(response.data.error);
+        })
+    }
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Trigger validation
+        formik.validateForm().then((errors) => {
+            // If the errors object is not empty, prevent form submission
+            if (pgName === "login" && (Object.keys(errors).length > 2)) {
+                console.log(pgName === "login")
+                console.log(Object.keys(errors).length)
+                toast.error("Please fill all required fields1")
+                return;
+            }
+            else if (pgName === "register" && Object.keys(errors).length > 0) {
+
+                toast.error("Please fill all required fields2")
+                return;
+            }
+
+            const serverRoute = pgName === "login" ? "/login" : "/register";
+            const form = new FormData(authForm);
+            const formData = {};
+            for (let [key, value] of form.entries()) {
+                formData[key] = value;
+            }
+
+            userAuthToServer(serverRoute, formData);
+        });
+    };
+
+
+    const formik = useFormik({
         initialValues: {
             fullname: "",
             email: "",
@@ -13,15 +58,15 @@ const AuthForm = ({ pgName }) => {
             confirmpassword: "",
         },
         validationSchema: formValidation,
-    });
 
-    // console.log(values);
-    // console.log(errors);
-    // console.log(touched);
+    });
+    const { handleChange, handleBlur, values, errors, touched } = formik;
+
     return (
         <AnimationWraper key={pgName}>
             <section className="min-h-[calc(100vh-80px)] flex items-center justify-center py-10">
-                <form action="" className="w-[80%] max-w-[400px]">
+                <Toaster />
+                <form id="authForm" className="w-[80%] max-w-[400px]">
                     <h1 className="text-4xl font-semibold text-center mb-16">
                         {pgName === "login" ? "Welcome Back" : "Create an Account"}
                     </h1>
@@ -75,6 +120,7 @@ const AuthForm = ({ pgName }) => {
                         />
                     )}
                     <button
+                        onClick={handleSubmit}
                         type="submit"
                         className="w-full bg-black text-white rounded-full py-3 mt-8 hover:bg-opacity-80"
                     >
