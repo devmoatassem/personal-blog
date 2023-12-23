@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import googleicon from "../assets/google.png";
 import InputComponent from "../components/input.component";
-import AnimationWraper from "../common/animationWraper";
+import AnimationWraper from "../common/animation/animationWraper";
 import { useFormik } from "formik";
 import { formValidation } from "../common/schema/formValidation";
 import axios from 'axios';
