@@ -6,13 +6,20 @@ import { useFormik } from "formik";
 import { formValidation } from "../common/schema/formValidation";
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
+import { useContext } from "react";
+import { AuthContext } from "../common/context/authContextProvider";
+import { clearSession, getFromSession, storeInSession } from "../common/session/session";
 
 const AuthForm = ({ pgName }) => {
 
+    const { authUser, setAuthUser } = useContext(AuthContext);
+    
     const userAuthToServer = (serverRoute, formData) => {
         axios.post(import.meta.env.VITE_SERVER + serverRoute, formData).then(({ data }) => {
-            console.log(data)
+            storeInSession("userToken",JSON.stringify(data));     
+            setAuthUser(data);
             toast.success("Successful");
+            
         }).catch(({ response }) => {
             console.log(response)
             toast.error(response.data.error);
