@@ -1,21 +1,23 @@
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/navbar.component'
 import AuthForm from './pages/authForm.page'
-import {AuthContextProvier} from './common/context/authContextProvider';
-function App() {
+import Home from './pages/home.page';
+import { AuthContext } from './common/context/authContextProvider';
+import { useContext } from "react";
 
+function App() {
+  const { authUser, setAuthUser } = useContext(AuthContext);
+  const token = authUser.acessToken; 
 
   return (
     <>
-      <AuthContextProvier>
-        <Routes>
-          <Route path='/' element={<Navbar />}>
-            {/* <Route path="/editor" element={<Editor />} /> */}
-            <Route path="/login" element={<AuthForm pgName="login" />} />
-            <Route path="/register" element={<AuthForm pgName="register" />} />
-          </Route>
-        </Routes>
-      </AuthContextProvier>
+      <Routes>
+        <Route path='/' element={<Navbar />}>
+          {/* <Route path="/editor" element={<Editor />} /> */}
+          <Route path="/login" element={token ? <Home /> : <AuthForm pgName="login" />} />
+          <Route path="/register" element={token ? <Home /> : <AuthForm pgName="register" />} />
+        </Route>
+      </Routes>
     </>
   )
 }

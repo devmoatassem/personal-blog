@@ -8,11 +8,11 @@ import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useContext } from "react";
 import { AuthContext } from "../common/context/authContextProvider";
-import { clearSession, getFromSession, storeInSession } from "../common/session/session";
+import { storeInSession } from "../common/session/session";
 
 const AuthForm = ({ pgName }) => {
 
-    const { authUser, setAuthUser } = useContext(AuthContext);
+    const {setAuthUser } = useContext(AuthContext);
     
     const userAuthToServer = (serverRoute, formData) => {
         axios.post(import.meta.env.VITE_SERVER + serverRoute, formData).then(({ data }) => {
