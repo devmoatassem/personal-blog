@@ -1,20 +1,20 @@
-import { createContext, useState, useEffect, useContext } from 'react';
-import { AuthContext } from './authContextProvider';
+import { createContext, useState } from 'react';
+
 
 const EditorContext = createContext();
 
 const EditorContextProvier = ({ children }) => {
     const [blog, setBlog] = useState({});
-    const [ editorState , setEditorState ] = useState("editor");
-    const [ textEditor, setTextEditor ] = useState({ isReady: false});
+    const [editorState, setEditorState] = useState("editor");
+    const [textEditor, setTextEditor] = useState({ isReady: false });
 
-    const { authUser:{ acessToken } } = useContext(AuthContext);
-    
+  
+
     return (
-        <EditorContext.Provider value={{ authUser, setAuthUser }}>
+        <EditorContext.Provider value={{ blog, setBlog, editorState, setEditorState, textEditor, setTextEditor }}>
             {children}
         </EditorContext.Provider>
     )
 }
 
-export { EditorContextProvier, EditorContext };
+export { EditorContextProvier, EditorContext }; 

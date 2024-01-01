@@ -34,7 +34,7 @@ const Navbar = () => {
 
                     {acessToken ?
                         <>
-                            <Link to="/write" className=' md:flex '>
+                            <Link to="/editor" className=' md:flex '>
                                 <button className='hidden md:flex gap-2 hover:text-black hover:bg-gray-200 hover:rounded-md p-3 px-4 opacity-75'>
                                     <i className="fi fi-rr-file-edit mt-0.5"></i>Write
                                 </button>
