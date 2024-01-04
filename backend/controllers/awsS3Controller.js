@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const s3_Client = new S3Client({
@@ -16,12 +16,12 @@ const s3_Client = new S3Client({
 export const getUploadURL = async (req, res) => {
   const date = new Date();
   const fileName = `${nanoid()}-${date.getTime()}.jpeg`;
-  const command = new GetObjectCommand({
+  const command = new PutObjectCommand({
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: fileName,
     ContentType: "image/jpeg",
   });
-  await getSignedUrl(s3_Client, command, { expiresIn: 3600 })
+  await getSignedUrl(s3_Client, command, { expiresIn: 1000 })
     .then((url) => {
       res.status(200).json({ uploadURL: url });
     })
