@@ -6,8 +6,6 @@ export const uploadImage = async (file) => {
   await axios
     .get(import.meta.env.VITE_SERVER + "/getUploadURL")
     .then(async ({ data: { uploadURL } }) => {
-      console.log(uploadURL);
-      console.log(file);
       await axios
         .put(uploadURL, file, {
           method: "PUT",

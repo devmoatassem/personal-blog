@@ -9,12 +9,10 @@ const EditorComponent = () => {
 
   const handleBannerUpload = (e) => {
     const img = e.target.files[0];
-    // console.log(img);
     if (img) {
       uploadImage(img).then((url) => {
         if (url) {
           blogBannerRef.current.src = url;
-          console.log(url);
         }
       });
     }
