@@ -1,38 +1,42 @@
-import { Route, Routes, redirect } from 'react-router-dom'
-import Navbar from './components/navbar.component'
-import AuthForm from './pages/authForm.page'
-import Home from './pages/home.page';
-import Editor from './pages/editor.page';
-import { AuthContext } from './common/context/authContextProvider';
-import { useContext } from "react";
+import { Route, Routes } from "react-router-dom";
+import RoutesProtection from "./common/routes/RoutesProtection";
+import { routesList } from "./common/routes/routesList";
 
 function App() {
-  const { authUser, setAuthUser } = useContext(AuthContext);
-  const token = authUser.acessToken;
-
   return (
     <>
       <Routes>
-
-        {token ?
-
-          <Route path='/' element={<Navbar />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/editor" element={<Editor />} />
-            <Route path="/login" element={token ? <Home /> : <AuthForm pgName="login" />} />
-            <Route path="/register" element={token ? <Home /> : <AuthForm pgName="register" />} />
-          </Route>
-
-          :
-          <Route path='/' element={<Navbar />}>
-            <Route path="/login" element={token ? <Home /> : <AuthForm pgName="login" />} />
-            <Route path="/register" element={token ? <Home /> : <AuthForm pgName="register" />} />
-          </Route>
-        }
-
+        {/* Public Routes */}
+        {routesList.map((route) => {
+          const Component = route.element;
+          return (
+            !route.isPrivate && (
+              <Route
+                key={route.name}
+                path={route.path}
+                element={<Component {...route.props} />}
+              />
+            )
+          );
+        })}
+        {/* Protected Routes */}
+        <Route element={<RoutesProtection />}>
+          {routesList.map((route) => {
+            const Component = route.element;
+            return (
+              route.isPrivate && (
+                <Route
+                  key={route.name}
+                  path={route.path}
+                  element={<Component {...route.props} />}
+                />
+              )
+            );
+          })}
+        </Route>
       </Routes>
     </>
-  )
+  );
 }
 
 export default App;

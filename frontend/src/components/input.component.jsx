@@ -33,7 +33,7 @@ const InputComponent = ({
               className={
                 "fi fi-rr-eye" +
                 (showPassword ? "" : "-crossed") +
-                " absolute right-4 mt-1 text-black"
+                " absolute right-4 mt-1 text-black cursor-pointer"
               }
               onClick={() => {
                 setShowPassword(!showPassword);

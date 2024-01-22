@@ -31,7 +31,7 @@ const EditorComponent = () => {
   };
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div className="flex items-center h-[50px] gap-4 border">
         <button className="bg-gray-400">Publish</button>
         <button className="bg-gray-400">Save Draft</button>

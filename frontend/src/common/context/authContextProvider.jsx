@@ -4,6 +4,8 @@ import { getFromSession } from '../session/session';
 
 const AuthContext = createContext();
 
+// import PropTypes from 'prop-types';
+
 const AuthContextProvier = ({ children }) => {
     const [authUser, setAuthUser] = useState({});
     
@@ -16,6 +18,10 @@ const AuthContextProvier = ({ children }) => {
             {children}
         </AuthContext.Provider>
     )
-    }
+}
+
+// AuthContextProvier.propTypes = {
+//     children: PropTypes.node.isRequired
+// };
 
 export {AuthContextProvier, AuthContext};
