@@ -1,8 +1,9 @@
 import React from "react";
-import Navbar from "./navbar.component";
+import EditorJS from '@editorjs/editorjs';
 import Banner from "/blog banner.png";
 import { uploadImage } from "../common/aws/aws";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import { editorJsTools } from "../common/utilities/editorJs/editorTools";
 
 const EditorComponent = () => {
   const blogBannerRef = useRef();
@@ -29,9 +30,19 @@ const EditorComponent = () => {
     element.style.height = "auto";
     element.style.height = element.scrollHeight + "px";
   };
+
+  useEffect(() => {
+    const editor = new EditorJS({
+      holder: "editorJsConnect",
+      data:{},
+      placeholder: "Let`s write an awesome story!",
+      tools: editorJsTools
+    });
+
+  }, []);
+
   return (
     <>
-      <Navbar />
       <div className="flex items-center h-[50px] gap-4 border">
         <button className="bg-gray-400">Publish</button>
         <button className="bg-gray-400">Save Draft</button>
@@ -61,7 +72,12 @@ const EditorComponent = () => {
             onKeyDown={handleEnterKey}
             onChange={handleHeight}
           ></textarea>
+
+          <hr className="w-full my-5  " />
+
+          <div id="editorJsConnect"></div>
         </div>
+
       </section>
     </>
   );

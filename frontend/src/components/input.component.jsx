@@ -41,9 +41,9 @@ const InputComponent = ({
             ></i>
           ) : null}
         </div>
-       
+
         {touched && error ? (
-            <p className="text-xs text-red-600">{error}</p>
+          <p className="text-xs text-red-600">{error}</p>
         ) : null}
       </div>
     </>
