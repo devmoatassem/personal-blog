@@ -1,10 +1,12 @@
 import React from "react";
 import EditorJS from "@editorjs/editorjs";
-import Banner from "/blog banner.png";
 import { uploadImage } from "../common/aws/aws";
 import { useRef, useEffect, useContext } from "react";
 import { editorJsTools } from "../common/utilities/editorJs/editorTools";
 import { EditorContext } from "../common/context/editorContextProvider";
+import Navbar from "./navbar.component";
+import ActionButton from "./common/actionbutton.component";
+import { Toaster, toast } from "react-hot-toast";
 
 const EditorComponent = () => {
   const blogBannerRef = useRef();
@@ -18,12 +20,15 @@ const EditorComponent = () => {
     setTextEditor,
   } = useContext(EditorContext);
 
+  const { title, banner, content } = blog;
+
   const handleBannerUpload = (e) => {
     const img = e.target.files[0];
     if (img) {
       uploadImage(img).then((url) => {
         if (url) {
-          blogBannerRef.current.src = url;
+          // blogBannerRef.current.src = url;
+          setBlog({ ...blog, banner: url });
         }
       });
     }
@@ -39,6 +44,7 @@ const EditorComponent = () => {
     const element = e.target;
     element.style.height = "auto";
     element.style.height = element.scrollHeight + "px";
+    setBlog({ ...blog, title: element.value });
   };
 
   // There's an issue here, whenever rerenders happens a new instance of blog editor is rendered, but for every render all others components are usually re-rendered instead of new instance.
@@ -53,15 +59,50 @@ const EditorComponent = () => {
     );
   }, []);
 
+  const handlePublishEvent = () => {
+    if (!banner.length || banner === "./blog banner.png") {
+      return toast.error("Upload a Banner");
+    } else if (!title.length) {
+      return toast.error("Add a blog Title");
+    } else if (textEditor.isReady) {
+      textEditor
+        .save()
+        .then((data) => {
+          // data is an array so i can compare the size of array to restrict user to add a specific amount of content at least abd vice-versa
+
+          if (data.blocks.length) {
+            setBlog({ ...blog, content: data });
+            setEditorState("publish");
+          } else {
+            return toast.error("Add some content to Blog");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   return (
     <>
+      <Navbar>
+        <ActionButton
+          text={"Publish"}
+          handleClick={handlePublishEvent}
+          customClass={"bg-black text-white"}
+        />
+        <ActionButton
+          text={"Save Draft"}
+          handleClick={() => navigate("/register")}
+          customClass={"bg-gray-200 text-black hidden md:block"}
+        />
+      </Navbar>
       <section>
+        <Toaster />
         <div className="mx-auto max-w-[1000px]">
           <div className="relative aspect-video hover:opacity-80 border-4">
             <label htmlFor="uploadBanner">
               <img
-                ref={blogBannerRef}
-                src={Banner}
+                src={banner}
                 alt="Upload Banner"
                 className="z-20 object-cover w-full h-full"
               />
