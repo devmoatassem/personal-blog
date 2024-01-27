@@ -11,6 +11,9 @@ import SimpleImage from "@editorjs/simple-image";
 import Header from "@editorjs/header";
 import { uploadImage } from "../../aws/aws";
 
+// I haven't included some of Tools coming from EditorJs because list of tools for editorJs is too long
+// You can find all tools here: https://github.com/editor-js/awesome-editorjs
+
 const uploadImageByUrl = (e) => {
   const link = new Promise((resolve, reject) => {
     try {
@@ -44,6 +47,11 @@ const uploadImageByFile = (e) => {
     }
   });
 };
+
+
+
+
+
 export const editorJsTools = {
   embed: Embed,
   header: {

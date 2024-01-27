@@ -1,12 +1,22 @@
 import React from "react";
-import EditorJS from '@editorjs/editorjs';
+import EditorJS from "@editorjs/editorjs";
 import Banner from "/blog banner.png";
 import { uploadImage } from "../common/aws/aws";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import { editorJsTools } from "../common/utilities/editorJs/editorTools";
+import { EditorContext } from "../common/context/editorContextProvider";
 
 const EditorComponent = () => {
   const blogBannerRef = useRef();
+
+  const {
+    blog,
+    setBlog,
+    editorState,
+    setEditorState,
+    textEditor,
+    setTextEditor,
+  } = useContext(EditorContext);
 
   const handleBannerUpload = (e) => {
     const img = e.target.files[0];
@@ -31,22 +41,20 @@ const EditorComponent = () => {
     element.style.height = element.scrollHeight + "px";
   };
 
+  // There's an issue here, whenever rerenders happens a new instance of blog editor is rendered, but for every render all others components are usually re-rendered instead of new instance.
   useEffect(() => {
-    const editor = new EditorJS({
-      holder: "editorJsConnect",
-      data:{},
-      placeholder: "Let`s write an awesome story!",
-      tools: editorJsTools
-    });
-
+    setTextEditor(
+      new EditorJS({
+        holder: "editorJsConnect",
+        data: {},
+        placeholder: "Let`s write an awesome story!",
+        tools: editorJsTools,
+      })
+    );
   }, []);
 
   return (
     <>
-      <div className="flex items-center h-[50px] gap-4 border">
-        <button className="bg-gray-400">Publish</button>
-        <button className="bg-gray-400">Save Draft</button>
-      </div>
       <section>
         <div className="mx-auto max-w-[1000px]">
           <div className="relative aspect-video hover:opacity-80 border-4">
@@ -77,7 +85,6 @@ const EditorComponent = () => {
 
           <div id="editorJsConnect"></div>
         </div>
-
       </section>
     </>
   );
