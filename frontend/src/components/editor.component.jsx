@@ -63,31 +63,31 @@ const EditorComponent = () => {
 
   // Function to verify data of blog if use has typed something or not
   const handlePublishEvent = () => {
-    // if (!banner.length || banner === "./blog banner.png") {
-    //   return toast.error("Upload a Banner");
-    // } else if (!title.length) {
-    //   return toast.error("Add a blog Title");
-    // } else if (textEditor.isReady) {
-    //   textEditor
-    //     .save()
-    //     .then((data) => {
+    if (!banner.length || banner === "./blog banner.png") {
+      return toast.error("Upload a Banner");
+    } else if (!title.length) {
+      return toast.error("Add a blog Title");
+    } else if (textEditor.isReady) {
+      textEditor
+        .save()
+        .then((data) => {
           // data is an array so i can compare the size of array to restrict user to add a specific amount of content at least abd vice-versa
 
-          // if (data.blocks.length) {
-          //   setBlog({ ...blog, content: data });
+          if (data.blocks.length) {
+            setBlog({ ...blog, content: data });
             setEditorState("publish");
-          
+
             navigate("/publish");
-    //       } else {
-    //         return toast.error("Add some content to Blog");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
+          } else {
+            return toast.error("Add some content to Blog");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
-  return  (
+  return (
     <>
       <Navbar>
         <ActionButton

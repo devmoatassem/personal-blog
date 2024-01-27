@@ -8,7 +8,7 @@ const EditorContextProvier = ({ children }) => {
     banner: "./blog banner.png",
     content: [],
     tags: [],
-    description: "",
+    description: "Please Add Some Description",
     author: { personal_info: {} },
   };
   const [blog, setBlog] = useState(blogStructure);

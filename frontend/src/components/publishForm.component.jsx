@@ -6,6 +6,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { EditorContext } from "../common/context/editorContextProvider";
 import { Navigate, Outlet } from "react-router-dom";
+import TopicTag from "./publishForm/topicTag";
 const PublishForm = () => {
   const {
     blog,
@@ -22,7 +23,41 @@ const PublishForm = () => {
     console.log("Hello");
   }, []);
 
-  const { title, banner, content } = blog;
+  const { title, banner, content, tags, description } = blog;
+
+  const handleTitleEdit = (e) => {
+    if (e.target.value.length > 0) {
+      setBlog({ ...blog, title: e.target.value });
+    } else {
+      setBlog({ ...blog, title: "Please Add Some Title" });
+    }
+  };
+
+  const descriptionCharacters = 200;
+  const handleDescriptionEdit = (e) => {
+    if (e.target.value.length > 0) {
+      setBlog({ ...blog, description: e.target.value });
+    } else {
+      setBlog({ ...blog, description: "Please Add Some Description" });
+    }
+  };
+
+  const addNewTag = (e) => {
+    console.log(e.key);
+    if (e.key === "Enter" && e.target.value.length > 0) {
+      if (tags.length < 10) {
+        let newTags = [...tags];
+        newTags.push(e.target.value);
+        setBlog({ ...blog, tags: newTags });
+        e.target.value = "";
+      } else {
+        return toast("You can only add 10 tags", {
+          icon: "⚠️",
+        });
+      }
+    }
+  };
+
   return editorState !== "publish" ? (
     <Navigate to="/editor" />
   ) : (
@@ -39,6 +74,7 @@ const PublishForm = () => {
           customClass={"bg-gray-200 text-black hidden md:block"}
         />
       </Navbar>
+      <Toaster />
       <section className="py-20 px-[5vw]">
         <div className="grid grid-cols-2 gap-5">
           <div className="px-5 py-10 mx-auto">
@@ -51,13 +87,10 @@ const PublishForm = () => {
               />
             </div>
             <div className="text-4xl font-bold w-full py-2 capitalize leading-tight">
-              {"title"}
+              {title}
             </div>
             <div className="text-base leading-tight text-gray-500 w-full h-fit">
-              {""} Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Obcaecati eos quidem inventore rem ratione incidunt? Magni, sequi
-              nemo eligendi repellat odit omnis assumenda nesciunt pariatur,
-              doloremque ipsa, voluptas molestias odio.{" "}
+              {description}
             </div>
           </div>
           <div className="px-10 py-10 mx-auto flex flex-col gap-5 w-full">
@@ -66,21 +99,23 @@ const PublishForm = () => {
               <input
                 type="text"
                 placeholder="Edit Title"
-                defaultValue={"title"}
+                defaultValue={title}
                 className="w-full px-5 py-3 rounded-md border-2 border-gray-300 outline-none"
+                onChange={handleTitleEdit}
               />
             </div>
             <div>
               <LabelText text={"Tags"} />
               <textarea
-                maxLength={200}
+                maxLength={descriptionCharacters}
                 type="text"
                 placeholder="Edit Title"
-                defaultValue={"Description"}
+                defaultValue={description}
                 className="w-full px-5 py-3 rounded-md border-2 border-gray-300 outline-none min-h-[150px] h-fit"
+                onChange={handleDescriptionEdit}
               />
               <div className="text-right text-xs text-gray-400 ">
-                200 Characters Left
+                {descriptionCharacters - description.length} Characters Left
               </div>
             </div>
             <div>
@@ -90,10 +125,16 @@ const PublishForm = () => {
                   type="text"
                   placeholder="Edit Title"
                   className="w-full px-5 py-3 rounded-md border-2 border-gray-300 outline-none"
+                  onKeyDown={addNewTag}
                 />
+                <>
+                  {tags.map((tag, i) => (
+                    <TopicTag text={tag} key={i} index={i} />
+                  ))}
+                </>
               </div>
               <div className="text-right text-xs text-gray-400 mt-1">
-                200 Characters Left
+                {10 - tags.length} Tags Left
               </div>
             </div>
           </div>
