@@ -22,6 +22,7 @@ const EditorComponent = () => {
 
   const { title, banner, content } = blog;
 
+  // Upload banner image to AWS S3 and get the url in return
   const handleBannerUpload = (e) => {
     const img = e.target.files[0];
     if (img) {
@@ -33,13 +34,13 @@ const EditorComponent = () => {
       });
     }
   };
-
+  // Do not allow user to use Enter key to next line in title textarea
   const handleEnterKey = (e) => {
     if (e.keyCode == 13) {
       e.preventDefault();
     }
   };
-
+  // handle the height of Blog Title Text Area height : it allows the text area to change it's height according to amount of text added
   const handleHeight = (e) => {
     const element = e.target;
     element.style.height = "auto";
@@ -59,6 +60,7 @@ const EditorComponent = () => {
     );
   }, []);
 
+  // Function to verify data of blog if use has typed something or not
   const handlePublishEvent = () => {
     if (!banner.length || banner === "./blog banner.png") {
       return toast.error("Upload a Banner");
