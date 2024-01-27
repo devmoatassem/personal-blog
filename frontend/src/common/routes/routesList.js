@@ -1,6 +1,7 @@
 import Home from "../../pages/home.page";
 import Editor from "../../pages/editor.page";
 import AuthForm from "../../pages/authForm.page";
+import PublishPage from "../../pages/publish.page";
 
 export const routesList = [
   {
@@ -31,4 +32,11 @@ export const routesList = [
     props: {},
     isPrivate: true,
   },
+  {
+    path:"/publish",
+    name:"Publish",
+    element: PublishPage,
+    props: {},
+    isPrivate: true,
+  }
 ];

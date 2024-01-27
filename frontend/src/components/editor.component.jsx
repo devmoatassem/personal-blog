@@ -1,15 +1,16 @@
 import React from "react";
 import EditorJS from "@editorjs/editorjs";
 import { uploadImage } from "../common/aws/aws";
-import { useRef, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { editorJsTools } from "../common/utilities/editorJs/editorTools";
 import { EditorContext } from "../common/context/editorContextProvider";
 import Navbar from "./navbar.component";
 import ActionButton from "./common/actionbutton.component";
 import { Toaster, toast } from "react-hot-toast";
+import { useNavigate, Navigate } from "react-router-dom";
 
 const EditorComponent = () => {
-  const blogBannerRef = useRef();
+  const navigate = useNavigate();
 
   const {
     blog,
@@ -53,7 +54,7 @@ const EditorComponent = () => {
     setTextEditor(
       new EditorJS({
         holder: "editorJsConnect",
-        data: {},
+        data: content,
         placeholder: "Let`s write an awesome story!",
         tools: editorJsTools,
       })
@@ -62,39 +63,41 @@ const EditorComponent = () => {
 
   // Function to verify data of blog if use has typed something or not
   const handlePublishEvent = () => {
-    if (!banner.length || banner === "./blog banner.png") {
-      return toast.error("Upload a Banner");
-    } else if (!title.length) {
-      return toast.error("Add a blog Title");
-    } else if (textEditor.isReady) {
-      textEditor
-        .save()
-        .then((data) => {
+    // if (!banner.length || banner === "./blog banner.png") {
+    //   return toast.error("Upload a Banner");
+    // } else if (!title.length) {
+    //   return toast.error("Add a blog Title");
+    // } else if (textEditor.isReady) {
+    //   textEditor
+    //     .save()
+    //     .then((data) => {
           // data is an array so i can compare the size of array to restrict user to add a specific amount of content at least abd vice-versa
 
-          if (data.blocks.length) {
-            setBlog({ ...blog, content: data });
+          // if (data.blocks.length) {
+          //   setBlog({ ...blog, content: data });
             setEditorState("publish");
-          } else {
-            return toast.error("Add some content to Blog");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+          
+            navigate("/publish");
+    //       } else {
+    //         return toast.error("Add some content to Blog");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
   };
-  return (
+  return  (
     <>
       <Navbar>
         <ActionButton
-          text={"Publish"}
+          text={"Next"}
           handleClick={handlePublishEvent}
           customClass={"bg-black text-white"}
         />
         <ActionButton
           text={"Save Draft"}
-          handleClick={() => navigate("/register")}
+          handleClick={() => navigate("/publish")}
           customClass={"bg-gray-200 text-black hidden md:block"}
         />
       </Navbar>
@@ -118,6 +121,7 @@ const EditorComponent = () => {
             </label>
           </div>
           <textarea
+            defaultValue={title}
             placeholder="Blog Title"
             className="text-4xl font-bold w-full h-20 outline-none resize-none mt-10 leading-tight placeholder:opacity-40"
             onKeyDown={handleEnterKey}
