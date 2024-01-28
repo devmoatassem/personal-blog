@@ -26,13 +26,24 @@ const EditorComponent = () => {
   // Upload banner image to AWS S3 and get the url in return
   const handleBannerUpload = (e) => {
     const img = e.target.files[0];
+    // console.log("Calling Image Upload");
+
     if (img) {
-      uploadImage(img).then((url) => {
-        if (url) {
-          // blogBannerRef.current.src = url;
-          setBlog({ ...blog, banner: url });
-        }
-      });
+      // console.log("Calling Image Upload-2");
+      uploadImage(img)
+        .then((url) => {
+          // console.log("Calling Image Upload-3");
+          // console.log(url);
+          if (url) {
+            // console.log("Calling Image Upload-4");
+            // blogBannerRef.current.src = url;
+            setBlog({ ...blog, banner: url });
+          }
+        })
+        .catch((err) => {
+          // console.log("Calling Image Upload-4");
+          console.log(err);
+        });
     }
   };
   // Do not allow user to use Enter key to next line in title textarea

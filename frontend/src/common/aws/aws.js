@@ -6,6 +6,7 @@ export const uploadImage = async (file) => {
   await axios
     .get(import.meta.env.VITE_SERVER + "/getUploadURL")
     .then(async ({ data: { uploadURL } }) => {
+      // console.log("URL Accessed")
       await axios
         .put(uploadURL, file, {
           method: "PUT",
@@ -16,17 +17,21 @@ export const uploadImage = async (file) => {
           data: file,
         })
         .then(() => {
-
+          // console.log("URL Accessed2");
           imgURL = uploadURL.split("?")[0];
           console.log(imgURL);
         })
         .catch((err) => {
           console.log(err);
+          throw new Error(err);
         });
     })
     .catch((err) => {
+      // console.log("URL Accessed3");
       console.log(err);
+      
+      // throw new Error(err);
     });
 
-    return imgURL;
+  return imgURL;
 };
