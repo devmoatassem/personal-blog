@@ -5,19 +5,27 @@ import User from "../schema/dbSchema/User.js";
 const saveBlogtoDB = async (req, res) => {
   const { title, banner, content, tags, description, draft } = req.body;
 
-  //   Check if data is received
-  if (
-    !title ||
-    !banner ||
-    !content.blocks.length ||
-    !tags ||
-    !description ||
-    tags.length > 10 ||
-    description.length > 200
-  ) {
+  //   Check if Title is received
+  if (!title) {
     return res.status(400).json({
       message: "Data Missing",
     });
+  }
+  if (!draft) {
+    //   Check if data is received
+    if (
+      !title ||
+      !banner ||
+      !content.blocks.length ||
+      !tags ||
+      !description ||
+      tags.length > 10 ||
+      description.length > 200
+    ) {
+      return res.status(400).json({
+        message: "Data Missing",
+      });
+    }
   }
 
   //   converting all tags to lowercase

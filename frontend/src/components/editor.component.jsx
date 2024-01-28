@@ -62,14 +62,16 @@ const EditorComponent = () => {
 
   // There's an issue here, whenever rerenders happens a new instance of blog editor is rendered, but for every render all others components are usually re-rendered instead of new instance.
   useEffect(() => {
-    setTextEditor(
-      new EditorJS({
-        holder: "editorJsConnect",
-        data: content,
-        placeholder: "Let`s write an awesome story!",
-        tools: editorJsTools,
-      })
-    );
+    if (!textEditor.isReady) {
+      setTextEditor(
+        new EditorJS({
+          holder: "editorJsConnect",
+          data: content,
+          placeholder: "Let`s write an awesome story!",
+          tools: editorJsTools,
+        })
+      );
+    }
   }, []);
 
   // Function to verify data of blog if use has typed something or not
@@ -86,7 +88,7 @@ const EditorComponent = () => {
           // console.log(data);
           if (data.blocks.length) {
             // console.log(data);
-        
+
             setBlog({ ...blog, content: data });
 
             setEditorState("publish");
