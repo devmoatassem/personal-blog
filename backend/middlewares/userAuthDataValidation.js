@@ -1,5 +1,6 @@
 // import formValidation from "../schema/formValidation";
 
+// This middleware is validating data provided by user for registration and login
 const userAuthValidation = (userAuthSchema) =>{
     return async (req, res, next) => {
         console.log(req.body);
