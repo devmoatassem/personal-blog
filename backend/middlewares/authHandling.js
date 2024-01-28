@@ -12,7 +12,8 @@ export const authHandling = (req, res, next) => {
       // Verify the token
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
       // Attach the user object to the request for further use in controllers
-      req.user = decoded;
+      console.log(decoded._id.length);
+      req.user = decoded._id ;
       // Move to the next middleware or route handler
       next();
     } catch (error) {

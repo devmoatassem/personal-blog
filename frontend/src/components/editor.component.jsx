@@ -83,9 +83,12 @@ const EditorComponent = () => {
         .save()
         .then((data) => {
           // data is an array so i can compare the size of array to restrict user to add a specific amount of content at least abd vice-versa
-
+          // console.log(data);
           if (data.blocks.length) {
+            // console.log(data);
+        
             setBlog({ ...blog, content: data });
+
             setEditorState("publish");
 
             navigate("/publish");
