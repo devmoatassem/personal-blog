@@ -9,6 +9,7 @@ import ActionButton from "./common/actionbutton.component";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate, Navigate } from "react-router-dom";
 import { AuthContext } from "../common/context/authContextProvider";
+import { useBlogFeatures } from "../common/utilities/blogPublish/blogPublish";
 
 const EditorComponent = () => {
   const navigate = useNavigate();
@@ -106,6 +107,8 @@ const EditorComponent = () => {
         });
     }
   };
+
+  const { saveDraftBlog } = useBlogFeatures(EditorContext, AuthContext);
   return (
     <>
       <Navbar>
@@ -116,7 +119,7 @@ const EditorComponent = () => {
         />
         <ActionButton
           text={"Save Draft"}
-          handleClick={() => navigate("/publish")}
+          handleClick={saveDraftBlog}
           customClass={"bg-gray-200 text-black hidden md:block"}
         />
       </Navbar>

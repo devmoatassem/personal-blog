@@ -59,7 +59,10 @@ const PublishForm = () => {
     }
   };
 
-  const { publishBlog } = useBlogFeatures(EditorContext, AuthContext);
+  const { publishBlog, saveDraftBlog } = useBlogFeatures(
+    EditorContext,
+    AuthContext
+  );
   return editorState !== "publish" ? (
     <Navigate to="/editor" />
   ) : (
@@ -72,7 +75,7 @@ const PublishForm = () => {
         />
         <ActionButton
           text={"Save Draft"}
-          handleClick={() => navigate("/publish")}
+          handleClick={saveDraftBlog}
           customClass={"bg-gray-200 text-black hidden md:block"}
         />
       </Navbar>
