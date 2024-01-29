@@ -8,6 +8,7 @@ import Navbar from "./navbar.component";
 import ActionButton from "./common/actionbutton.component";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate, Navigate } from "react-router-dom";
+import { AuthContext } from "../common/context/authContextProvider";
 
 const EditorComponent = () => {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ const EditorComponent = () => {
 
   const { title, banner, content } = blog;
 
+  const { authUser } = useContext(AuthContext);
+  const { acessToken } = authUser;
   // Upload banner image to AWS S3 and get the url in return
   const handleBannerUpload = (e) => {
     const img = e.target.files[0];
@@ -30,7 +33,7 @@ const EditorComponent = () => {
 
     if (img) {
       // console.log("Calling Image Upload-2");
-      uploadImage(img)
+      uploadImage(img, acessToken)
         .then((url) => {
           // console.log("Calling Image Upload-3");
           // console.log(url);
@@ -109,7 +112,7 @@ const EditorComponent = () => {
         <ActionButton
           text={"Next"}
           handleClick={handlePublishEvent}
-          customClass={"bg-black text-white"}
+          customClass={"bg-black text-white "}
         />
         <ActionButton
           text={"Save Draft"}
@@ -119,8 +122,8 @@ const EditorComponent = () => {
       </Navbar>
       <section>
         <Toaster />
-        <div className="mx-auto max-w-[1000px]">
-          <div className="relative aspect-video hover:opacity-80 border-4">
+        <div className="mx-auto max-w-[1000px] ">
+          <div className="relative aspect-video hover:opacity-80 border-4 ">
             <label htmlFor="uploadBanner">
               <img
                 src={banner}

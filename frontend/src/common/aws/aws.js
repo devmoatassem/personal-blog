@@ -1,10 +1,15 @@
 import axios from "axios";
+import { useContext } from "react";
 
-export const uploadImage = async (file) => {
+export const uploadImage = async (file, acessToken) => {
   let imgURL = null;
 
   await axios
-    .get(import.meta.env.VITE_SERVER + "/getUploadURL")
+    .get(import.meta.env.VITE_SERVER + "/getUploadURL",{
+      headers: {
+        Authorization: `Bearer ${acessToken}`,
+      },
+    })
     .then(async ({ data: { uploadURL } }) => {
       // console.log("URL Accessed")
       await axios
@@ -29,7 +34,7 @@ export const uploadImage = async (file) => {
     .catch((err) => {
       // console.log("URL Accessed3");
       console.log(err);
-      
+
       // throw new Error(err);
     });
 

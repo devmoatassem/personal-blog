@@ -3,10 +3,11 @@ import Navbar from "./navbar.component";
 import ActionButton from "./common/actionbutton.component";
 import LabelText from "./publishForm/labelText";
 import { Toaster, toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { EditorContext } from "../common/context/editorContextProvider";
-import { Navigate, Outlet } from "react-router-dom";
+import { AuthContext } from "../common/context/authContextProvider";
+import { Navigate } from "react-router-dom";
 import TopicTag from "./publishForm/topicTag";
+import { useBlogFeatures } from "../common/utilities/blogPublish/blogPublish";
 const PublishForm = () => {
   const {
     blog,
@@ -58,6 +59,7 @@ const PublishForm = () => {
     }
   };
 
+  const { publishBlog } = useBlogFeatures(EditorContext, AuthContext);
   return editorState !== "publish" ? (
     <Navigate to="/editor" />
   ) : (
@@ -65,7 +67,7 @@ const PublishForm = () => {
       <Navbar>
         <ActionButton
           text={"Publish"}
-          handleClick={"handlePublishEvent"}
+          handleClick={publishBlog}
           customClass={"bg-black text-white"}
         />
         <ActionButton
@@ -123,7 +125,7 @@ const PublishForm = () => {
               <div className="bg-gray-300 p-1 rounded-md">
                 <input
                   type="text"
-                  placeholder="Edit Title"
+                  placeholder="Add tags for better SEO"
                   className="w-full px-5 py-3 rounded-md border-2 border-gray-300 outline-none"
                   onKeyDown={addNewTag}
                 />

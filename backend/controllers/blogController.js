@@ -15,11 +15,15 @@ const saveBlogtoDB = async (req, res) => {
     //   Check if data is received
     if (
       !title ||
+      !title.length ||
       !banner ||
+      !banner.length ||
       !content.blocks.length ||
       !tags ||
       !description ||
       tags.length > 10 ||
+      !description ||
+      !description.length ||
       description.length > 200
     ) {
       return res.status(400).json({
