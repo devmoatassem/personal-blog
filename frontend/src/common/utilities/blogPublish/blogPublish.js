@@ -62,7 +62,7 @@ export const useBlogFeatures = (EditorContext, AuthContext) => {
     e.target.classList.add("disabled", "pointer-events-none", "opacity-50");
 
     axios
-      .post(import.meta.env.VITE_SERVER + "/publishBlog", data, config)
+      .post(import.meta.env.VITE_SERVER + "/create/publishBlog", data, config)
       .then((res) => {
         toast.dismiss(loadingToast);
         toast.success("Blog published successfully");

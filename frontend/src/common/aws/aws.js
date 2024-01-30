@@ -5,7 +5,7 @@ export const uploadImage = async (file, acessToken) => {
   let imgURL = null;
 
   await axios
-    .get(import.meta.env.VITE_SERVER + "/getUploadURL",{
+    .get(import.meta.env.VITE_SERVER + "/create/getUploadURL", {
       headers: {
         Authorization: `Bearer ${acessToken}`,
       },

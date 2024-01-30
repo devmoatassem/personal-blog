@@ -4,8 +4,9 @@ import "dotenv/config.js";
 import connectDB from "./config/dbConnection.js";
 // Routes
 import userRoutes from "./routes/userRoutes.js";
-import blogRoutes from "./routes/blogRoutes.js";
- 
+import createBlogRoutes from "./routes/createBlogRoutes.js";
+import getBlogRoutes from "./routes/getBlogRoutes.js";
+
 connectDB(); // connect to the database
 
 const server = new express();
@@ -20,10 +21,11 @@ server.use(cors());
 server.use(express.json());
 
 // Use the user routes
+server.use("/create", createBlogRoutes); // I should add a prefix to all my routes to avoid authentication conflicts
+// as above route is private and using auth middleware so it'll restrict the routes below if I do not add base route differnce
+// server.use(userRoutes, getBlogRoutes);  I can group multiple routes like this too.
 server.use(userRoutes);
-server.use(blogRoutes);
-
-
+server.use("/blog", getBlogRoutes);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
