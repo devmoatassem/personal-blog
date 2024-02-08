@@ -23,7 +23,7 @@
     "@editorjs/quote": "^2.6.0",
     "@editorjs/raw": "^2.5.0",
     "@editorjs/simple-image": "^1.6.0",
-    "@flaticon/flaticon-uicons": "^3.0.0",
+    "@flaticon/flaticon-uicons": "^3.1.0",
     "axios": "^1.6.2",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.16",
