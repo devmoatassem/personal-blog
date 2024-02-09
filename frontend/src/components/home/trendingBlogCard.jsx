@@ -2,7 +2,7 @@ import React from "react";
 
 const TrendingBlogCard = () => {
   return (
-    <div className="flex py-5 gap-2 w-full">
+    <div className="flex py-5 gap-2 w-full ">
       <div className="text-gray-200 font-bold text-6xl">01</div>
       <div className="max-h-fit w-full">
         <div className="flex items-center gap-2 pb-3">
